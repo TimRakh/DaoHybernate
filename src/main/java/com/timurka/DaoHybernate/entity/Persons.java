@@ -1,26 +1,29 @@
 package com.timurka.DaoHybernate.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.timurka.DaoHybernate.model.Contact;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "PERSONS")
-@Entity
+@Data
+@Builder
+@Table(name = "persons")
+@NamedNativeQuery(
+        name = "findPersonByCity",
+        query = "select * from persons p where p.city_of_living = :city"
+)
 public class Persons {
     @EmbeddedId
-    private PersonKey personKey;
-
-    @Column(nullable = false)
+    private Contact contact;
+    @Column(length = 25, name = "phone_number", nullable = false)
     private String phoneNumber;
-
-    @Column(nullable = false)
+    @Column(length = 50, name = "city_of_living", nullable = false)
     private String cityOfLiving;
+
 
 }
